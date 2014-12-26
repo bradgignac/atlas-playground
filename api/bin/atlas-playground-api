@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var server = require('../lib/server');
+
+var yargs = require('yargs')
+  .usage('Usage: $0 --host [string] --port [port]')
+  .default('host', 'localhost')
+  .default('port', 8000);
+
+var api = server.listen(yargs.argv.port, yargs.argv.host);
+
+process.on('SIGINT', function () {
+  api.close();
+});
