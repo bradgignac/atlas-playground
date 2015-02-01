@@ -1,3 +1,5 @@
+BIN = ./node_modules/.bin
+
 all: clean setup lint test
 
 clean:
@@ -7,9 +9,9 @@ setup:
 	npm install
 
 lint:
-	npm run-script lint
+	$(BIN)/jshint lib test
 
 test:
-	npm test
+	$(BIN)/mocha test
 
 .PHONY: clean setup lint test
