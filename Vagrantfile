@@ -23,4 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "forwarded_port", guest: 2375, host: 2375
   config.vm.network "private_network", ip: $network_ip
+
+  config.vm.provision :file, :source => "cloud-config.yaml", :destination => "/tmp/vagrantfile-user-data"
+  config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
 end
