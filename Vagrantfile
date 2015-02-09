@@ -26,4 +26,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :file, :source => "cloud-config.yaml", :destination => "/tmp/vagrantfile-user-data"
   config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
+
+  config.vm.provision :docker do |d|
+    d.images = ['progrium/consul']
+
+    d.run 'progrium/consul',
+      :cmd => "-server -bootstrap",
+      :args => "-p 8400:8400 -p 8500:8500 -p 8600:53/udp"
+  end
 end
