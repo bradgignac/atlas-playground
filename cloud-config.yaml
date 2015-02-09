@@ -4,3 +4,17 @@ coreos:
   units:
     - name: docker.service
       command: start
+    - name: docker-tcp.socket
+      command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Docker API over Private Network
+
+        [Socket]
+        ListenStream=$private_ipv4:2375
+        Service=docker.service
+        BindIPv6Only=both
+
+        [Install]
+        WantedBy=sockets.target
